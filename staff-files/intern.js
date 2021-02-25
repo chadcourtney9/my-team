@@ -1,9 +1,5 @@
-const inquirer = require("inquirer")
+const inquirer = require("inquirer");
+const Employee = require("./employee");
 
-
-const internPrompt = () => {
-    return inquirer.prompt([
-        {}
-    ])
-}
-module.exports = internPrompt;
+class Intern extends Employee
+module.exports = Intern;

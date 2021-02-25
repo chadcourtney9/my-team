@@ -1,9 +1,25 @@
-const inquirer = require("inquirer")
+class Employee {
+
+    constructor(name, id, email) {
+        this.name = name;
+        this.id = id;
+        this.email = email;
+        console.log("name = " + this.name);
+    }
+
+    getName() {
+        return this.name;
+    }
+
+    getId() {
+        return this.id;
+    }
+
+    getEmail() {
+        return this.email;
+    }
 
 
-const employeePrompt = () => {
-    return inquirer.prompt([
-        {}
-    ])
 }
-module.exports = employeePrompt;
+
+module.exports = Employee;
