@@ -1,0 +1,37 @@
+h1 {
+    font-family: 'Monoton', cursive;
+        font-size: 80px;
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00f2, 0 0 20px #00ffee, 0 0 25px #ff00f2, 0 0 30px #ff0011, 0 0 35px #0073e6;
+    animation: blinker 3s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+
+body {
+    background-image: url(./images/wp4438964.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card-title {
+    color: #ff00f2;
+    font-family: 'Warnes', cursive;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00f2, 0 0 20px #00ffee, 0 0 25px #ff00f2, 0 0 30px #ff0011, 0 0 35px #0073e6;
+
+}
+
+.card {
+    max-height: 200px;
+}
+.far {
+    color: white;
+}
+p, li {
+    color: turquoise;
+}
