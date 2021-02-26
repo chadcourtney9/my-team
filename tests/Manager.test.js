@@ -11,5 +11,5 @@ test("Can set an office room number", () => {
 test("Can get the role", () => {
     const manager = new Manager();
 
-    expect(manager.getRole()).toBe("manager")
+    expect(manager.getRole()).toBe("Manager")
 })

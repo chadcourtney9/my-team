@@ -13,5 +13,5 @@ test("Can get where the intern goes to school", () => {
 test("Can get the intern role", () => {
     const intern = new Intern();
 
-    expect(intern.getRole()).toBe("intern")
+    expect(intern.getRole()).toBe("Intern")
 })

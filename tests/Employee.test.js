@@ -20,5 +20,5 @@ test("Can set an email address", () => {
     const email = "chadcourtney567@gmail.com";
     const employee = new Employee('', '', email);
 
-    expect(employee.email).toBe("chadcoutney567@gmail.com");
+    expect(employee.email).toBe("chadcourtney567@gmail.com");
 });
