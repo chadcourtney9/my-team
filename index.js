@@ -199,9 +199,9 @@ managerCardPush = (manager) => {
     <div class="card-reveal cyan accent-1">
       <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
       <ul>
-        <li class="manId">${manager.id}</li>
-        <li class="manEmail">${manager.email}</li>
-        <li class="manOffice">${manager.office}</li>
+        <li class="manId">ID:${manager.id}</li>
+        <li class="manEmail"><a href="mailto:${manager.email}" target="_blank">${manager.email}</a></li>
+        <li class="manOffice">Office Room:${manager.office}</li>
     </ul>  
   </div>
   </div>
@@ -232,9 +232,9 @@ engiCardPush = (engineer) => {
 <div class="card-reveal cyan accent-1">
   <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
   <ul>
-    <li class="engID">${engineer.id}</li>
-    <li class="engEmail">${engineer.email}</li>
-    <li class="engGit">${engineer.gitHub}</li>
+    <li class="engID">ID:${engineer.id}</li>
+    <li class="engEmail"><a href="mailto:${engineer.email}" target="_blank">${engineer.email}</a></li>
+    <li class="engGit">github.com/${engineer.gitHub}</li>
 </ul>
 </div>
 </div>
@@ -264,9 +264,9 @@ internCardPush = (intern) => {
 <div class="card-reveal cyan accent-1">
   <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
   <ul>
-      <li class="intID">${intern.id}</li>
-      <li class="intEmail">${intern.email}</li>
-      <li class="intSchool">${intern.school}</li>
+      <li class="intID">ID:${intern.id}</li>
+      <li class="intEmail"><a href="mailto:${intern.email}" target="_blank">${intern.email}</a></li>
+      <li class="intSchool">School:${intern.school}</li>
   </ul>
 </div>
 </div>
