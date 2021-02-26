@@ -1,10 +1,8 @@
 const Manager = require("./staff-files/manager");
 const Engineer = require("./staff-files/engineer");
 const Intern = require("./staff-files/intern");
-const fs = require("fs");
 const inquirer = require("inquirer");
-
-
+const fs = require("fs");
 
 const OBJ = {
     manager: [],
@@ -45,6 +43,8 @@ teamInit = () => {
         })
 };
 
+teamInit();
+
 nextMemb = () => {
     inquirer.prompt([
         {
@@ -54,7 +54,7 @@ nextMemb = () => {
             choices: ["Manager", "Engineer", "Intern", "No more employees!"]
         }
     ]).then((answers) => {
-        switch (answers.teamAdd) {
+        switch (answers.nextMembChoice) {
             case 'Manager':
                 break;
             case 'Engineer':
@@ -64,6 +64,7 @@ nextMemb = () => {
                 internPrompt();
                 break;
             case 'All positions are filled, no need to add anymore':
+                makeHTML();
 
         };
     })
@@ -126,7 +127,7 @@ const internPrompt = () => {
         }
     ])
         .then((answers) => {
-            let intern = new intern(answers.internName, answers.internId, answers.internEmail, answers.intschool)
+            let intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.intschool)
             OBJ.intern.push(intern);
             nextMemb();
         })
@@ -137,7 +138,6 @@ const internPrompt = () => {
 };
 
 buildHTML = () => {
-    return
     ` <!DOCTYPE html >
         <html lang="en">
         <head>
@@ -157,11 +157,13 @@ buildHTML = () => {
          <h1 class="myTeamHeader center-align">MY TEAM</h1>
         <div class="container center-align">
         <div class="row">
-        // manager
 
-        // engineer
+        ${buildmanColl()}
 
-        // intern
+        ${buildengColl()}
+
+        ${buildInterColl()}
+
 
         </div>
         </div>
@@ -171,11 +173,17 @@ buildHTML = () => {
 };
 
 
+const makeHTML = () => {
+    fs.writeFile("myteam.html", buildHTML(), (err) => {
+        err ? console.log(err, "Whats going on here? :(") : console.log("Team created check myTeamGen folder")
+    })
+}
 
 
-managerCard = () => {
+managerCardPush = (answers) => {
     return
     `
+
     <!-- Manager -->
 
     <div class="card col s4 deep-purple accent-4">
@@ -183,78 +191,96 @@ managerCard = () => {
         <img class="activator" src="">
     </div>
     <div class="card-content ">
-      <p class="card-title activator">  <i class="far fa-caret-square-down"></i></p>
+      <p class="card-title activator">${answers.manName}  <i class="far fa-caret-square-down"></i></p>
       <p>Manager</p>
     </div>
     <div class="card-reveal cyan accent-1">
       <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
       <ul>
-        <li class="manId"></li>
-        <li class="manEmail"></li>
-        <li class="manOffice"></li>
+        <li class="manId">${answers.manId}</li>
+        <li class="manEmail">${answers.manEmail}</li>
+        <li class="manOffice">${answers.officeNum}</li>
     </ul>  
   </div>
   </div>
 
   <!-- Manager -->
 
+
     `
+}
+buildmanColl = () => {
+    let managerCollection = "";
+    OBJ.managers.forEach(manager => {
+        managerCollection += managerCardPush(manager)
+    });
 }
 
 
-engineerCard = () => {
+engiCardPush = (answers) => {
     return
     `             
-    <!-- engineer -->
+<!-- engineer -->
 
-     <div class="card col s4 deep-purple accent-4">
-    <div class="card-image waves-effect deep-purple accent-4">
-    </div>
-    <div class="card-content">
-      <p class="card-title outterTitle activator">  <i class="far fa-caret-square-down"></i></p>
-      <p>Engineer</p>
-    </div>
-    <div class="card-reveal cyan accent-1">
-      <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
-      <ul>
-        <li class="engID"></li>
-        <li class="engEmail"></li>
-        <li class="engGit"></li>
-    </ul>
-    </div>
-  </div>
+ <div class="card col s4 deep-purple accent-4">
+<div class="card-image waves-effect deep-purple accent-4">
+</div>
+<div class="card-content">
+  <p class="card-title outterTitle activator">${answers.enginName}  <i class="far fa-caret-square-down"></i></p>
+  <p>Engineer</p>
+</div>
+<div class="card-reveal cyan accent-1">
+  <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
+  <ul>
+    <li class="engID">${answers.enginId}</li>
+    <li class="engEmail">${answers.enginEmail}</li>
+    <li class="engGit">${answers.gitHub}</li>
+</ul>
+</div>
+</div>
 
-  <!-- engineer -->
+<!-- engineer -->
 
-  `
+`
+}
+buildengColl = () => {
+    let engineerCollection = "";
+    OBJ.engineer.forEach(engineer => {
+        engineerCollection += engiCardPush(engineer)
+    });
 }
 
-
-internCard = () => {
+internCardPush = (answers) => {
     return
     `
-    <!-- intern -->
+<!-- intern -->
 
-    <div class="card col s4 deep-purple accent-4">
-    <div class="card-image waves-effect deep-purple accent-4">
-    </div>
-    <div class="card-content ">
-      <p class="card-title intName activator">Tom Fallon  <i class="far fa-caret-square-down"></i></p>
-      <p>Intern</p>
-    </div>
-    <div class="card-reveal cyan accent-1">
-      <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
-      <ul>
-          <li class="intID"></li>
-          <li class="intEmail"></li>
-          <li class="intSchool"></li>
-      </ul>
-    </div>
-  </div>
-  </div>
+<div class="card col s4 deep-purple accent-4">
+<div class="card-image waves-effect deep-purple accent-4">
+</div>
+<div class="card-content ">
+  <p class="card-title intName activator">${answers.internName}  <i class="far fa-caret-square-down"></i></p>
+  <p>Intern</p>
+</div>
+<div class="card-reveal cyan accent-1">
+  <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
+  <ul>
+      <li class="intID">${answers.internName}</li>
+      <li class="intEmail">${answers.internEmail}</li>
+      <li class="intSchool">${answers.intschool}</li>
+  </ul>
+</div>
+</div>
+</div>
 
-  <!-- intern -->
+<!-- intern -->
 
-    `
+`
+}
+buildInterColl = () => {
+    let internCollection = "";
+    OBJ.managers.forEach(intern => {
+        internCollection += internCardPush(intern)
+    });
 }
 
