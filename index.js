@@ -234,7 +234,7 @@ engiCardPush = (engineer) => {
   <ul>
     <li class="engID">ID:${engineer.id}</li>
     <li class="engEmail"><a href="mailto:${engineer.email}" target="_blank">${engineer.email}</a></li>
-    <li class="engGit">github.com/${engineer.gitHub}</li>
+    <li class="engGit"><a target="_blank" href="https://github.com/${engineer.gitHub}">${engineer.gitHub}</a></li>
 </ul>
 </div>
 </div>
