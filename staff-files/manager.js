@@ -3,7 +3,7 @@ const { resourceUsage } = require("process");
 const Employee = require("./employee");
 
 class Manager extends Employee {
-    constructor(id, email, office, name) {
+    constructor(name, id, email, office) {
         super(name, id, email)
         this.office = office;
     }

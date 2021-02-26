@@ -3,11 +3,11 @@ const Engineer = require("./staff-files/engineer");
 const Intern = require("./staff-files/intern");
 const inquirer = require("inquirer");
 const fs = require("fs");
-
+const Employee = require("./staff-files/employee")
 const OBJ = {
-    manager: [],
-    engineer: [],
-    intern: []
+    managers: [],
+    engineers: [],
+    interns: []
 }
 
 teamInit = () => {
@@ -34,8 +34,8 @@ teamInit = () => {
         },
     ])
         .then((answers) => {
-            let manager = new Manager(answers.manName, answers.manId, answers.manEmail, answers.officeNum)
-            OBJ.manager.push(manager);
+            let manager = new Manager(answers.manName, answers.manID, answers.manEmail, answers.officeNum)
+            OBJ.managers.push(manager);
             nextMemb();
         })
         .catch((err) => {
@@ -51,7 +51,7 @@ nextMemb = () => {
             type: "list",
             name: "nextMembChoice",
             message: "Add another type of employee",
-            choices: ["Manager", "Engineer", "Intern", "No more employees!"]
+            choices: ["Manager", "Engineer", "Intern", "All positions are filled, no need to add anymore"]
         }
     ]).then((answers) => {
         switch (answers.nextMembChoice) {
@@ -74,17 +74,17 @@ const engineerPrompt = () => {
     inquirer.prompt([
         {
             type: "input",
-            name: "enginName",
+            name: "engineerName",
             message: "Enter name here"
         },
         {
             type: "input",
-            name: "enginID",
+            name: "engineerId",
             message: "Enter engineer ID"
         },
         {
             type: "input",
-            name: "enginEmail",
+            name: "engineerEmail",
             message: "Enter engineers Email"
         },
         {
@@ -94,8 +94,13 @@ const engineerPrompt = () => {
         }
     ])
         .then((answers) => {
-            let engineer = new Engineer(answers.enginName, answers.enginId, answers.enginEmail, answers.gitHub)
-            OBJ.engineer.push(engineer);
+            const engineer = new Engineer(
+                `${answers.engineerName}`,
+                `${answers.engineerId}`,
+                `${answers.engineerEmail}`,
+                `${answers.gitHub}`
+            )
+            OBJ.engineers.push(engineer);
             nextMemb();
         })
         .catch((err) => {
@@ -122,13 +127,13 @@ const internPrompt = () => {
         },
         {
             type: "input",
-            name: "intschool",
+            name: "intSchool",
             message: "Enter intern School name"
         }
     ])
         .then((answers) => {
-            let intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.intschool)
-            OBJ.intern.push(intern);
+            let intern = new Intern(answers.internName, answers.internID, answers.internEmail, answers.intSchool)
+            OBJ.interns.push(intern);
             nextMemb();
         })
         .catch((err) => {
@@ -137,14 +142,14 @@ const internPrompt = () => {
 
 };
 
-buildHTML = () => {
+const buildHTML = () =>
     ` <!DOCTYPE html >
         <html lang="en">
         <head>
         <title>Employee Cards</title>
         <meta charset="UTF-8">
         <!-- link to css page -->
-        <link href="./assets/style.css" rel="stylesheet">
+        <link href="../assets/style.css" rel="stylesheet">
         <!-- Materialize page -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <!-- fontawesome -->
@@ -170,71 +175,66 @@ buildHTML = () => {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         </body>
         </html>`
-};
+
 
 
 const makeHTML = () => {
-    fs.writeFile("myteam.html", buildHTML(), (err) => {
+    fs.writeFile("./writeTeam/main.html", buildHTML(), (err) => {
         err ? console.log(err, "Whats going on here? :(") : console.log("Team created check myTeamGen folder")
     })
 }
 
 
-managerCardPush = (answers) => {
-    return
-    `
-
-    <!-- Manager -->
+managerCardPush = (manager) => {
+    return `<!-- Manager -->
 
     <div class="card col s4 deep-purple accent-4">
     <div class="card-image waves-effect deep-purple accent-4">
         <img class="activator" src="">
     </div>
     <div class="card-content ">
-      <p class="card-title activator">${answers.manName}  <i class="far fa-caret-square-down"></i></p>
+      <p class="card-title activator">${manager.name}  <i class="far fa-caret-square-down"></i></p>
       <p>Manager</p>
     </div>
     <div class="card-reveal cyan accent-1">
       <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
       <ul>
-        <li class="manId">${answers.manId}</li>
-        <li class="manEmail">${answers.manEmail}</li>
-        <li class="manOffice">${answers.officeNum}</li>
+        <li class="manId">${manager.id}</li>
+        <li class="manEmail">${manager.email}</li>
+        <li class="manOffice">${manager.office}</li>
     </ul>  
   </div>
   </div>
 
   <!-- Manager -->
-
-
     `
 }
+
 buildmanColl = () => {
     let managerCollection = "";
     OBJ.managers.forEach(manager => {
         managerCollection += managerCardPush(manager)
     });
+    return managerCollection
 }
 
 
-engiCardPush = (answers) => {
-    return
-    `             
-<!-- engineer -->
+engiCardPush = (engineer) => {
+    return `<!-- engineer -->
 
  <div class="card col s4 deep-purple accent-4">
 <div class="card-image waves-effect deep-purple accent-4">
 </div>
 <div class="card-content">
-  <p class="card-title outterTitle activator">${answers.enginName}  <i class="far fa-caret-square-down"></i></p>
+  <p class="card-title outterTitle activator">${engineer.name}  <i class="far fa-caret-square-down"></i></p>
   <p>Engineer</p>
 </div>
 <div class="card-reveal cyan accent-1">
   <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
   <ul>
-    <li class="engID">${answers.enginId}</li>
-    <li class="engEmail">${answers.enginEmail}</li>
-    <li class="engGit">${answers.gitHub}</li>
+    <li class="engID">${engineer.id}</li>
+    <li class="engEmail">${engineer.email}</li>
+    <li class="engGit">${engineer.gitHub}</li>
 </ul>
 </div>
 </div>
@@ -245,29 +245,28 @@ engiCardPush = (answers) => {
 }
 buildengColl = () => {
     let engineerCollection = "";
-    OBJ.engineer.forEach(engineer => {
+    OBJ.engineers.forEach(engineer => {
         engineerCollection += engiCardPush(engineer)
     });
+    return engineerCollection
 }
 
-internCardPush = (answers) => {
-    return
-    `
-<!-- intern -->
+internCardPush = (intern) => {
+    return `<!-- intern -->
 
 <div class="card col s4 deep-purple accent-4">
 <div class="card-image waves-effect deep-purple accent-4">
 </div>
 <div class="card-content ">
-  <p class="card-title intName activator">${answers.internName}  <i class="far fa-caret-square-down"></i></p>
+  <p class="card-title intName activator">${intern.name}  <i class="far fa-caret-square-down"></i></p>
   <p>Intern</p>
 </div>
 <div class="card-reveal cyan accent-1">
   <p class="card-title">Less Info<i class="fas fa-times-circle" style="float: right;"></i></p>
   <ul>
-      <li class="intID">${answers.internName}</li>
-      <li class="intEmail">${answers.internEmail}</li>
-      <li class="intSchool">${answers.intschool}</li>
+      <li class="intID">${intern.id}</li>
+      <li class="intEmail">${intern.email}</li>
+      <li class="intSchool">${intern.school}</li>
   </ul>
 </div>
 </div>
@@ -279,8 +278,9 @@ internCardPush = (answers) => {
 }
 buildInterColl = () => {
     let internCollection = "";
-    OBJ.managers.forEach(intern => {
+    OBJ.interns.forEach(intern => {
         internCollection += internCardPush(intern)
     });
+    return internCollection
 }
 
